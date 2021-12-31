@@ -1,13 +1,24 @@
-import { useSelector } from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import { useEffect } from 'react';
 import ContactForm from '../ContactForm';
 import ContactList from '../ContactList';
 import Filter from '../Filter';
+import {
+  getContacts,
+  addContact,
+  deleteContact,
+} from '../../redux/contacts/contactsOperations';
 
 import s from './App.module.css';
 
 const App = () => {
-  const contacts = useSelector(state => state.contacts.items);
+  const contacts = useSelector(state => state.contacts.data.items);
+  console.log('🚀 ~ contacts', contacts);
+  const dispatch = useDispatch();
+  useEffect(() => {
+    dispatch(getContacts());
+    return () => {};
+  }, [dispatch]);
 
   // useEffect(() => {
   //   const getContacts = async () => {
@@ -36,12 +47,12 @@ const App = () => {
   return (
     <div className={s.app}>
       <h1>Phonebook</h1>
-      <ContactForm />
+      {/* <ContactForm />
 
       <h2>Contacts</h2>
       {contacts.length > 1 && <Filter />}
       {!contacts.length && <p>Please, add contact!</p>}
-      {!!contacts.length && <ContactList />}
+      {!!contacts.length && <ContactList />} */}
     </div>
   );
 };

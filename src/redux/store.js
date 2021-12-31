@@ -30,11 +30,11 @@ import contactsReducer from './contacts/contactsActionsSlice';
 //   }
 // }
 
-const persistContactsConfig = {
-  key: 'items',
-  storage,
-  whitelist: ['items'],
-};
+// const persistContactsConfig = {
+//   key: 'items',
+//   storage,
+//   whitelist: ['items'],
+// };
 
 const logger = createLogger({
   collapsed: (getState, action, logEntry) => !logEntry.error,
@@ -43,7 +43,7 @@ const logger = createLogger({
 
 const store = configureStore({
   reducer: {
-    contacts: persistReducer(persistContactsConfig, contactsReducer),
+    contacts: contactsReducer,
   },
   middleware: getDefaultMiddleware =>
     getDefaultMiddleware({
@@ -54,6 +54,6 @@ const store = configureStore({
   devTools: process.env.NODE_ENV !== 'production',
 });
 
-const persistor = persistStore(store);
+// const persistor = persistStore(store);
 
-export { store, persistor };
+export { store };
