@@ -2,12 +2,13 @@ import { useEffect, memo, useMemo } from 'react';
 import { useSelector, useDispatch } from 'react-redux';
 import ItemContact from './ItemContact';
 import { contactsActions } from '../../redux/contacts';
+import { contactsSelectors } from '../../redux/contacts';
 import s from './ContactList.module.css';
 
 const ContactList = () => {
-  const contacts = useSelector(state => state.contacts.items);
+  const contacts = useSelector(contactsSelectors.getContacts);
 
-  const filter = useSelector(state => state.contacts.filter);
+  const filter = useSelector(contactsSelectors.getFilter);
 
   const dispatch = useDispatch();
 

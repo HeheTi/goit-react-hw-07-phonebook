@@ -3,56 +3,42 @@ import { useEffect } from 'react';
 import ContactForm from '../ContactForm';
 import ContactList from '../ContactList';
 import Filter from '../Filter';
-import {
-  getContacts,
-  addContact,
-  deleteContact,
-} from '../../redux/contacts/contactsOperations';
+import { getContacts } from '../../redux/contacts/contactsOperations';
+import { contactsSelectors } from '../../redux/contacts';
+import Loader from '../LoaderModal';
 
 import s from './App.module.css';
 
 const App = () => {
-  const contacts = useSelector(state => state.contacts.data.items);
-  console.log('🚀 ~ contacts', contacts);
+  const contacts = useSelector(contactsSelectors.getContacts);
+  const loading = useSelector(contactsSelectors.getLoading);
+  const error = useSelector(contactsSelectors.getError);
+
   const dispatch = useDispatch();
+
   useEffect(() => {
     dispatch(getContacts());
-    return () => {};
   }, [dispatch]);
 
-  // useEffect(() => {
-  //   const getContacts = async () => {
-  //     const data = await getAllContacts();
-  //     console.log('🚀 ~ data', data);
-  //     setstate(data);
-  //   };
-
-  //   const saveC = async data => {
-  //     const addD = await saveItem(data);
-  //     console.log('🚀 ~ addD', addD);
-  //   };
-
-  //   const delItem = async id => {
-  //     const datDel = await deleteItem(id);
-  //     console.log('🚀 ~ datDel', datDel);
-  //   };
-
-  //   saveC({ name: 'Mambo TI', number: '457733737' });
-  //   delItem(4);
-  //   getContacts();
-
-  //   return () => {};
-  // }, []);
+  const isAddContact = !error && !contacts.length;
 
   return (
     <div className={s.app}>
+      {loading && <Loader />}
+
       <h1>Phonebook</h1>
-      {/* <ContactForm />
+
+      <ContactForm />
 
       <h2>Contacts</h2>
+
       {contacts.length > 1 && <Filter />}
-      {!contacts.length && <p>Please, add contact!</p>}
-      {!!contacts.length && <ContactList />} */}
+
+      {isAddContact && <p>Please, add contact!</p>}
+
+      {!!contacts.length && <ContactList />}
+
+      {error && <p className={s.errorMess}>{error.message}</p>}
     </div>
   );
 };

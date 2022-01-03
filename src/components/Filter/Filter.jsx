@@ -3,6 +3,7 @@ import { useCallback } from 'react';
 import { connect } from 'react-redux';
 import Input from '../../common/Input';
 import { contactsActions } from '../../redux/contacts';
+import { contactsSelectors } from '../../redux/contacts';
 
 function Filter({ filter, onChangeFilter }) {
   const onChangeFilterValue = useCallback(
@@ -34,7 +35,7 @@ Filter.propTypes = {
 // УНИВЕРСАЛЬНЫЙ СПОСОБ СВЯЗАТЬ РЕДАКС С КОМПОНЕНЬЛМ (РАБОТАЕТ И ДЛЯ КДАССОВ, И ДЛЯ ФУНКЦИИ)
 
 const mapStateToProps = state => ({
-  filter: state.contacts.filter,
+  filter: contactsSelectors.getFilter(state),
 });
 
 const mapDispatchToProps = dispatch => ({
